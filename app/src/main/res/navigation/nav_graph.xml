@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/photoInfoListFragment">
 
+    <fragment
+        android:id="@+id/photoInfoListFragment"
+        android:name="com.waseefakhtar.marsphotosapp.presentation.photo_info_list.PhotoInfoListFragment"
+        android:label="fragment_photo_info_list"
+        tools:layout="@layout/fragment_photo_info_list">
+        <action
+            android:id="@+id/action_photoInfoListFragment_to_photoDetailFragment"
+            app:destination="@id/photoDetailFragment"
+            >
+            <argument
+                android:name="id"
+                android:defaultValue="0"
+                app:argType="integer" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/photoDetailFragment"
+        android:name="com.waseefakhtar.marsphotosapp.presentation.photo_detail.PhotoDetailFragment"
+        android:label="fragment_photo_detail"
+        tools:layout="@layout/fragment_photo_detail" />
 </navigation>

@@ -22,6 +22,7 @@ class GetPhotoInfoListUseCase @Inject constructor(
 
 private fun Photo.toPhotoInfo(): PhotoInfo =
     PhotoInfo(
+        id = id,
         rover = rover.name,
         earthDate = earthDate,
         camera = camera.fullName
