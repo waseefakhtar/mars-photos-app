@@ -1,63 +1,71 @@
 package com.waseefakhtar.marsphotosapp.presentation.photo_detail
 
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.viewbinding.ViewBinding
+import coil.load
 import com.waseefakhtar.marsphotosapp.R
+import com.waseefakhtar.marsphotosapp.common.Resource
+import com.waseefakhtar.marsphotosapp.databinding.FragmentPhotoDetailBinding
+import com.waseefakhtar.marsphotosapp.domain.model.PhotoDetail
+import com.waseefakhtar.marsphotosapp.presentation.BindingFragment
+import com.waseefakhtar.marsphotosapp.presentation.photo_info_list.PhotoInfoListFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [PhotoDetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-
 @AndroidEntryPoint
-class PhotoDetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class PhotoDetailFragment : BindingFragment<FragmentPhotoDetailBinding>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override val bindingInflater: (LayoutInflater) -> ViewBinding
+        get() = FragmentPhotoDetailBinding::inflate
+
+    val args: PhotoDetailFragmentArgs by navArgs()
+    private val viewModel: PhotoDetailViewModel by viewModels()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViews()
+        onObserve()
+    }
+
+    private fun initViews() {
+        with(activity as AppCompatActivity) {
+            supportActionBar?.setTitle(R.string.mars_photos_app)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.show()
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_photo_detail, container, false)
+    private fun onObserve() {
+        viewModel.photoDetailState().observe(viewLifecycleOwner, { photoDetailState -> refreshState(photoDetailState) })
+        viewModel.onLoad(args.id)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PhotoDetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PhotoDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun refreshState(photoDetailState: Resource<PhotoDetail>) {
+        when (photoDetailState) {
+            is Resource.Loading -> binding.progressBar.visibility = View.VISIBLE
+            is Resource.Success -> {
+                with(binding) {
+                    photoDetailState.data?.let { photoDetail ->
+                        progressBar.visibility = View.GONE
+                        roverValue.text = photoDetail.rover
+                        launchDateValue.text = photoDetail.launchDate
+                        landingDateValue.text = photoDetail.landingDate
+                        statusValue.text = photoDetail.status
+                        imageView.load(Uri.parse(photoDetail.imgSrc))
+                    }
                 }
+
             }
+            is Resource.Error -> {
+                Toast.makeText(context, photoDetailState.message, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }

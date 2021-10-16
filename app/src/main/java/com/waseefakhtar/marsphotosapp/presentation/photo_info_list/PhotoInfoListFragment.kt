@@ -36,6 +36,7 @@ class PhotoInfoListFragment : BindingFragment<FragmentPhotoInfoListBinding>() {
     private fun initViews() {
         with(activity as AppCompatActivity) {
             supportActionBar?.setTitle(R.string.mars_photos_app)
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
             supportActionBar?.show()
         }
 
