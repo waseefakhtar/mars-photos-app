@@ -1,7 +1,8 @@
-package com.waseefakhtar.marsphotosapp
+package com.waseefakhtar.marsphotosapp.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.waseefakhtar.marsphotosapp.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
