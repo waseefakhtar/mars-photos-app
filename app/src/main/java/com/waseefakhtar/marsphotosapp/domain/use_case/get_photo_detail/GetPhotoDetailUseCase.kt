@@ -6,6 +6,7 @@ import com.waseefakhtar.marsphotosapp.domain.model.PhotoDetail
 import com.waseefakhtar.marsphotosapp.domain.repository.MarsPhotosRepository
 import kotlinx.coroutines.withContext
 import java.io.IOException
+import java.util.*
 import javax.inject.Inject
 
 class GetPhotoDetailUseCase @Inject constructor(
@@ -26,6 +27,6 @@ private fun Photo.toPhotoDetail(): PhotoDetail =
         rover = rover.name,
         launchDate = rover.launchDate,
         landingDate = rover.landingDate,
-        imgSrc = img_src,
-        status = rover.status
+        imgSrc = imgSrc,
+        status = rover.status.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
     )

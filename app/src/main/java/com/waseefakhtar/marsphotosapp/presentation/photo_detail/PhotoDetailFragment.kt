@@ -1,13 +1,11 @@
 package com.waseefakhtar.marsphotosapp.presentation.photo_detail
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewbinding.ViewBinding
 import coil.load
@@ -16,7 +14,6 @@ import com.waseefakhtar.marsphotosapp.common.Resource
 import com.waseefakhtar.marsphotosapp.databinding.FragmentPhotoDetailBinding
 import com.waseefakhtar.marsphotosapp.domain.model.PhotoDetail
 import com.waseefakhtar.marsphotosapp.presentation.BindingFragment
-import com.waseefakhtar.marsphotosapp.presentation.photo_info_list.PhotoInfoListFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -58,7 +55,7 @@ class PhotoDetailFragment : BindingFragment<FragmentPhotoDetailBinding>() {
                         launchDateValue.text = photoDetail.launchDate
                         landingDateValue.text = photoDetail.landingDate
                         statusValue.text = photoDetail.status
-                        imageView.load(Uri.parse(photoDetail.imgSrc))
+                        imageView.load(photoDetail.imgSrc)
                     }
                 }
 
