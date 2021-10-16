@@ -1,6 +1,8 @@
 package com.waseefakhtar.marsphotosapp.di
 
 import com.waseefakhtar.marsphotosapp.common.Constants
+import com.waseefakhtar.marsphotosapp.coroutines.DefaultDispatcherProvider
+import com.waseefakhtar.marsphotosapp.coroutines.DispatcherProvider
 import com.waseefakhtar.marsphotosapp.data.remote.NasaApi
 import com.waseefakhtar.marsphotosapp.data.repository.MarsPhotosRepositoryImpl
 import com.waseefakhtar.marsphotosapp.domain.repository.MarsPhotosRepository
@@ -31,4 +33,8 @@ object AppModule {
     fun provideMarsPhotosRepository(api: NasaApi): MarsPhotosRepository {
         return MarsPhotosRepositoryImpl(api)
     }
+
+    @Singleton
+    @Provides
+    fun provideDispatcherProvider(): DispatcherProvider = DefaultDispatcherProvider()
 }
