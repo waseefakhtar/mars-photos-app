@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.scope.MainCoroutineScopeRule
 import com.waseefakhtar.marsphotosapp.data.remote.dto.MarsPhotosDto
 import com.waseefakhtar.marsphotosapp.generateMarsPhotosDto
+import com.waseefakhtar.marsphotosapp.randomString
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -48,11 +49,11 @@ class NasaApiTest {
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)
-                .setBody("{\"photos\":[{\"it\":${randomMarsPhoto.id},\"sol\":${randomMarsPhoto.sol},\"camera\":{\"id\":${randomMarsPhoto.camera.id},\"name\":\"${randomMarsPhoto.camera.name}\",\"rover_id\":${randomMarsPhoto.camera.rover_id},\"full_name\":\"${randomMarsPhoto.camera.fullName}\"},\"img_src\":\"${randomMarsPhoto.imgSrc}\",\"earth_date\":\"${randomMarsPhoto.earthDate}\",\"rover\":{\"id\":${randomMarsPhoto.rover.id},\"name\":\"${randomMarsPhoto.rover.name}\",\"landing_date\":\"${randomMarsPhoto.rover.landingDate}\",\"launch_date\":\"${randomMarsPhoto.rover.launchDate}\",\"status\":\"${randomMarsPhoto.rover.status}\"}}]}")
+                .setBody("{\"photos\":[{\"id\":${randomMarsPhoto.id},\"sol\":${randomMarsPhoto.sol},\"camera\":{\"id\":${randomMarsPhoto.camera.id},\"name\":\"${randomMarsPhoto.camera.name}\",\"rover_id\":${randomMarsPhoto.camera.rover_id},\"full_name\":\"${randomMarsPhoto.camera.fullName}\"},\"img_src\":\"${randomMarsPhoto.imgSrc}\",\"earth_date\":\"${randomMarsPhoto.earthDate}\",\"rover\":{\"id\":${randomMarsPhoto.rover.id},\"name\":\"${randomMarsPhoto.rover.name}\",\"landing_date\":\"${randomMarsPhoto.rover.landingDate}\",\"launch_date\":\"${randomMarsPhoto.rover.launchDate}\",\"status\":\"${randomMarsPhoto.rover.status}\"}}]}")
         )
 
         runBlocking {
-            val marsPhotos = api.getMarsPhotos()
+            val marsPhotos = api.getMarsPhotos(randomString())
             marsPhotos.`should equal`(MarsPhotosDto(listOf(randomMarsPhoto)))
         }
     }

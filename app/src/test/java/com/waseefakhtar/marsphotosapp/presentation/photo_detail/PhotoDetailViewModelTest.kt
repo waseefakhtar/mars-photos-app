@@ -52,16 +52,16 @@ class PhotoDetailViewModelTest {
         val photoList = generatePhotoList()
         val randomPhoto = photoList.random()
         val photoDetail = randomPhoto.toPhotoDetail()
-        When calling getPhotoDetailUseCase.getPhotoDetailById(randomPhoto.id) doReturn photoDetail
+        When calling getPhotoDetailUseCase.getPhotoDetailById(randomPhoto.id, randomPhoto.rover.name) doReturn photoDetail
         val expectedStates = listOf<Resource<PhotoDetail>>(
             Resource.Loading(),
             Resource.Success(photoDetail)
         )
 
-        photoDetailViewModel.onLoad(randomPhoto.id)
+        photoDetailViewModel.onLoad(randomPhoto.id, randomPhoto.rover.name)
 
         photoDetailStates.`should equal`(expectedStates)
-        Verify on getPhotoDetailUseCase that getPhotoDetailUseCase.getPhotoDetailById(randomPhoto.id) was called
+        Verify on getPhotoDetailUseCase that getPhotoDetailUseCase.getPhotoDetailById(randomPhoto.id, randomPhoto.rover.name) was called
         `Verify no further interactions` on getPhotoDetailUseCase
     }
 
@@ -74,12 +74,12 @@ class PhotoDetailViewModelTest {
             Resource.Loading(),
             Resource.Error("Couldn't reach server. Check your internet connection")
         )
-        When calling getPhotoDetailUseCase.getPhotoDetailById(randomPhoto.id) doThrow exception
+        When calling getPhotoDetailUseCase.getPhotoDetailById(randomPhoto.id, randomPhoto.rover.name) doThrow exception
 
-        photoDetailViewModel.onLoad(randomPhoto.id)
+        photoDetailViewModel.onLoad(randomPhoto.id, randomPhoto.rover.name)
 
         photoDetailStates.`should equal`(expectedStates)
-        Verify on getPhotoDetailUseCase that getPhotoDetailUseCase.getPhotoDetailById(randomPhoto.id) was called
+        Verify on getPhotoDetailUseCase that getPhotoDetailUseCase.getPhotoDetailById(randomPhoto.id, randomPhoto.rover.name) was called
         `Verify no further interactions` on getPhotoDetailUseCase
     }
 

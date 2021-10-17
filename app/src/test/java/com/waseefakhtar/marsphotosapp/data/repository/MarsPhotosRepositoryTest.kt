@@ -36,9 +36,10 @@ class MarsPhotosRepositoryTest {
     fun `Should return marsPhotos from API successfully`() = mainCoroutineScopeRule.runBlockingTest {
         val marsPhotosDto = generateMarsPhotosDto()
         val photoList = marsPhotosDto.photos
-        When calling nasaApi.getMarsPhotos() doReturn marsPhotosDto
+        val rover = photoList.random().rover.name
+        When calling nasaApi.getMarsPhotos(rover) doReturn marsPhotosDto
 
-        val result = marsPhotosRepository.getMarsPhotos()
+        val result = marsPhotosRepository.getMarsPhotos(rover)
 
         result.`should equal`(photoList)
     }

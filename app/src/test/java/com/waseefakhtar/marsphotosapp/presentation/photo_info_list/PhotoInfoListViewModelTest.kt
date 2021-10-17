@@ -49,32 +49,35 @@ class PhotoInfoListViewModelTest {
     @Test
     fun `Should load photoInfoList successfully`() = mainCoroutineScopeRule.runBlockingTest {
         val photoInfoList = generatePhotoList().map { it.toPhotoInfo() }
-        When calling getPhotoInfoListUseCase.getPhotoInfoList() doReturn photoInfoList
+        val randomRover = photoInfoList.random().rover
+        val rover = Rover.values().random()
+        When calling getPhotoInfoListUseCase.getPhotoInfoList(rover) doReturn photoInfoList
         val expectedStates = listOf<Resource<List<PhotoInfo>>>(
             Resource.Loading(),
             Resource.Success(photoInfoList)
         )
 
-        photoInfoListViewModel.onLoad()
+        photoInfoListViewModel.onLoad(rover)
 
         photoInfoListStates.`should equal`(expectedStates)
-        Verify on getPhotoInfoListUseCase that getPhotoInfoListUseCase.getPhotoInfoList() was called
+        Verify on getPhotoInfoListUseCase that getPhotoInfoListUseCase.getPhotoInfoList(rover) was called
         `Verify no further interactions` on getPhotoInfoListUseCase
     }
 
     @Test
     fun `Should show error when exception occurs`() = mainCoroutineScopeRule.runBlockingTest {
+        val rover = Rover.values().random()
         val exception = IOException()
         val expectedStates = listOf<Resource<List<PhotoInfo>>>(
             Resource.Loading(),
             Resource.Error("Couldn't reach server. Check your internet connection")
         )
-        When calling getPhotoInfoListUseCase.getPhotoInfoList() doThrow exception
+        When calling getPhotoInfoListUseCase.getPhotoInfoList(rover) doThrow exception
 
-        photoInfoListViewModel.onLoad()
+        photoInfoListViewModel.onLoad(rover)
 
         photoInfoListStates.`should equal`(expectedStates)
-        Verify on getPhotoInfoListUseCase that getPhotoInfoListUseCase.getPhotoInfoList() was called
+        Verify on getPhotoInfoListUseCase that getPhotoInfoListUseCase.getPhotoInfoList(rover) was called
         `Verify no further interactions` on getPhotoInfoListUseCase
     }
 

@@ -8,6 +8,7 @@ import com.waseefakhtar.marsphotosapp.coroutines.DispatcherProvider
 import com.waseefakhtar.marsphotosapp.domain.repository.MarsPhotosRepository
 import com.waseefakhtar.marsphotosapp.generatePhotoList
 import com.waseefakhtar.marsphotosapp.randomInt
+import com.waseefakhtar.marsphotosapp.randomString
 import com.waseefakhtar.marsphotosapp.toPhotoDetail
 import kotlinx.coroutines.test.runBlockingTest
 import org.amshove.kluent.Verify
@@ -50,30 +51,32 @@ class GetPhotoDetailUseCaseTest {
         val photoList = generatePhotoList()
         val randomPhoto = photoList.random()
         val photoDetail = randomPhoto.toPhotoDetail()
-        When calling repository.getMarsPhotos() doReturn photoList
+        val rover = photoDetail.rover
+        When calling repository.getMarsPhotos(rover) doReturn photoList
 
-        val result = getPhotoDetailUseCase.getPhotoDetailById(randomPhoto.id)
+        val result = getPhotoDetailUseCase.getPhotoDetailById(randomPhoto.id, rover)
 
         result.`should equal`(photoDetail)
-        Verify on repository that repository.getMarsPhotos() was called
+        Verify on repository that repository.getMarsPhotos(rover) was called
         `Verify no further interactions` on repository
     }
 
     @Test
     fun `Should return exception when getting photoInfoList is unsuccessful`() = mainCoroutineScopeRule.runBlockingTest {
         val id = randomInt()
+        val rover = randomString()
         val exception = RuntimeException()
-        When calling repository.getMarsPhotos() doThrow exception
+        When calling repository.getMarsPhotos(rover) doThrow exception
 
         val result = try {
-            getPhotoDetailUseCase.getPhotoDetailById(id)
+            getPhotoDetailUseCase.getPhotoDetailById(id, rover)
             true
         } catch (throwable: Throwable) {
             false
         }
 
         result.`should equal`(false)
-        Verify on repository that repository.getMarsPhotos() was called
+        Verify on repository that repository.getMarsPhotos(rover) was called
         `Verify no further interactions` on repository
     }
 }

@@ -71,11 +71,7 @@ fun Photo.toPhotoDetail(): PhotoDetail =
 
 
 fun randomPositiveInt(maxInt: Int = Int.MAX_VALUE - 1): Int = random.nextInt(maxInt + 1).takeIf { it > 0 } ?: randomPositiveInt(maxInt)
-fun randomPositiveLong(maxLong: Long = Long.MAX_VALUE - 1): Long = random.nextLong(maxLong + 1).takeIf { it > 0 } ?: randomPositiveLong(maxLong)
 fun randomInt() = random.nextInt()
-fun randomIntBetween(min: Int, max: Int) = random.nextInt(max - min) + min
-fun randomLong() = random.nextLong()
-fun randomBoolean() = random.nextBoolean()
 fun randomString(size: Int = 20): String = (0..size)
     .map { charPool[random.nextInt(0, charPool.size)] }
     .joinToString("")
