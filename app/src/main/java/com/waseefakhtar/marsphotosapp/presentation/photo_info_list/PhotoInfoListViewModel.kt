@@ -20,12 +20,14 @@ class PhotoInfoListViewModel @Inject constructor(
 
     fun photoInfoListState(): LiveData<Resource<List<PhotoInfo>>> = photoInfoListState
     private val photoInfoListState: MutableLiveData<Resource<List<PhotoInfo>>> = MutableLiveData()
+    var currentRover: Rover = Rover.Curiosity
 
-    fun onLoad() {
+    fun onLoad(rover: Rover) {
+        currentRover = rover
         photoInfoListState.value = Resource.Loading()
         viewModelScope.launch {
             try {
-                photoInfoListState.value = Resource.Success(getPhotoInfoListUseCase.getPhotoInfoList())
+                photoInfoListState.value = Resource.Success(getPhotoInfoListUseCase.getPhotoInfoList(rover))
             } catch (e: HttpException) {
                 photoInfoListState.value = Resource.Error(e.localizedMessage ?: "An unexpected error occurred")
             } catch (e: IOException) {
@@ -33,4 +35,8 @@ class PhotoInfoListViewModel @Inject constructor(
             }
         }
     }
+}
+
+enum class Rover {
+    Curiosity, Opportunity, Spirit
 }

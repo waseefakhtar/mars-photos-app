@@ -15,9 +15,9 @@ class GetPhotoDetailUseCase @Inject constructor(
 ) {
 
     @Throws(Throwable::class)
-    suspend fun getPhotoDetailById(id: Int): PhotoDetail {
+    suspend fun getPhotoDetailById(id: Int, rover: String): PhotoDetail {
         return withContext(dispatcherProvider.io()) {
-            repository.getMarsPhotos().find { it.id == id }?.toPhotoDetail() ?: throw IOException()
+            repository.getMarsPhotos(rover).find { it.id == id }?.toPhotoDetail() ?: throw IOException()
         }
     }
 }

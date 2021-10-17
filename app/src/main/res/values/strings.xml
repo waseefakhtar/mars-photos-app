@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">mars-photos-app</string>
     <string name="mars_photos_app">Mars Photos App</string>
+    <string name="curiosity">Curiosity</string>
+    <string name="opportunity">Opportunity</string>
+    <string name="spirit">Spirit</string>
 </resources>

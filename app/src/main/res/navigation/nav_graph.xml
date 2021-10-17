@@ -18,6 +18,9 @@
                 android:name="id"
                 android:defaultValue="0"
                 app:argType="integer" />
+            <argument
+                android:name="rover"
+                app:argType="string" />
         </action>
     </fragment>
     <fragment
@@ -29,5 +32,8 @@
             android:name="id"
             android:defaultValue="0"
             app:argType="integer" />
+        <argument
+            android:name="rover"
+            app:argType="string" />
     </fragment>
 </navigation>

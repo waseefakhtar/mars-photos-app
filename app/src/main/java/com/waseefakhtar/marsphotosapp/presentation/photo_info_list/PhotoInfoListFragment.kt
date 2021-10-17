@@ -1,10 +1,11 @@
 package com.waseefakhtar.marsphotosapp.presentation.photo_info_list
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -33,27 +34,48 @@ class PhotoInfoListFragment : BindingFragment<FragmentPhotoInfoListBinding>() {
         onObserve()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.options_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        viewModel.onLoad(
+            when (item.itemId) {
+                R.id.curiosity_item -> Rover.Curiosity
+                R.id.opportunity_item -> Rover.Opportunity
+                R.id.spirit_item -> Rover.Spirit
+                else -> viewModel.currentRover
+            }
+        )
+        return true
+    }
+
     private fun initViews() {
         with(activity as AppCompatActivity) {
             supportActionBar?.setTitle(R.string.mars_photos_app)
             supportActionBar?.setDisplayHomeAsUpEnabled(false)
             supportActionBar?.show()
         }
+        setHasOptionsMenu(true)
 
         binding.recyclerView.adapter = adapter
     }
 
     private fun onObserve() {
         viewModel.photoInfoListState().observe(viewLifecycleOwner, { photoInfoListState -> refreshState(photoInfoListState) })
-        viewModel.onLoad()
+        viewModel.onLoad(viewModel.currentRover)
     }
 
     private fun refreshState(photoInfoListState: Resource<List<PhotoInfo>>) {
         when (photoInfoListState) {
-            is Resource.Loading -> binding.progressBar.visibility = View.VISIBLE
+            is Resource.Loading -> {
+                binding.progressBar.visibility = View.VISIBLE
+                adapter.clear()
+            }
             is Resource.Success -> {
                 binding.progressBar.visibility = View.GONE
-                adapter.add(photoInfoListState.data ?: listOf())
+                adapter.add(photoInfoListState.data)
             }
             is Resource.Error -> {
                 binding.progressBar.visibility = View.GONE
@@ -62,8 +84,8 @@ class PhotoInfoListFragment : BindingFragment<FragmentPhotoInfoListBinding>() {
         }
     }
 
-    private fun onPhotoInfoClick(id: Int) {
-        val action = PhotoInfoListFragmentDirections.actionPhotoInfoListFragmentToPhotoDetailFragment(id)
+    private fun onPhotoInfoClick(id: Int, rover: String) {
+        val action = PhotoInfoListFragmentDirections.actionPhotoInfoListFragmentToPhotoDetailFragment(id, rover)
         view?.findNavController()?.navigate(action)
     }
 }

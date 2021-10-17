@@ -9,7 +9,7 @@ import com.waseefakhtar.marsphotosapp.domain.model.PhotoInfo
 
 class PhotoInfoAdapter(
     private val layoutInflater: LayoutInflater,
-    private val onPhotoInfoClick: (id: Int) -> Unit
+    private val onPhotoInfoClick: (id: Int, rover: String) -> Unit
 ) : RecyclerView.Adapter<PhotoInfoViewHolder>() {
 
     private var photoInfoList = mutableListOf<PhotoInfo>()
@@ -22,12 +22,17 @@ class PhotoInfoAdapter(
         this.photoInfoList.addAll(weatherList)
         notifyDataSetChanged()
     }
+
+    fun clear() {
+        this.photoInfoList.clear()
+        notifyDataSetChanged()
+    }
 }
 
 class PhotoInfoViewHolder(
     layoutInflater: LayoutInflater,
     parentView: ViewGroup,
-    private val onWeatherClick: (id: Int) -> Unit
+    private val onWeatherClick: (id: Int, rover: String) -> Unit
 ) : RecyclerView.ViewHolder(layoutInflater.inflate(R.layout.item_photo_info, parentView, false)) {
 
     private val roverTextView: TextView = itemView.findViewById(R.id.roverValue)
@@ -35,7 +40,7 @@ class PhotoInfoViewHolder(
     private val cameraValue: TextView = itemView.findViewById(R.id.cameraValue)
 
     fun bind(photoInfo: PhotoInfo) {
-        itemView.setOnClickListener { onWeatherClick(photoInfo.id) }
+        itemView.setOnClickListener { onWeatherClick(photoInfo.id, photoInfo.rover) }
         roverTextView.text = photoInfo.rover
         earthDateTextView.text = photoInfo.earthDate
         cameraValue.text = photoInfo.camera

@@ -41,7 +41,7 @@ class PhotoDetailFragment : BindingFragment<FragmentPhotoDetailBinding>() {
 
     private fun onObserve() {
         viewModel.photoDetailState().observe(viewLifecycleOwner, { photoDetailState -> refreshState(photoDetailState) })
-        viewModel.onLoad(args.id)
+        viewModel.onLoad(args.id, args.rover)
     }
 
     private fun refreshState(photoDetailState: Resource<PhotoDetail>) {

@@ -21,11 +21,11 @@ class PhotoDetailViewModel @Inject constructor(
     fun photoDetailState(): LiveData<Resource<PhotoDetail>> = photoDetailState
     private val photoDetailState: MutableLiveData<Resource<PhotoDetail>> = MutableLiveData()
 
-    fun onLoad(id: Int) {
+    fun onLoad(id: Int, rover: String) {
         photoDetailState.value = Resource.Loading()
         viewModelScope.launch {
             try {
-                photoDetailState.value = Resource.Success(getPhotoDetailUseCase.getPhotoDetailById(id))
+                photoDetailState.value = Resource.Success(getPhotoDetailUseCase.getPhotoDetailById(id, rover))
             } catch (e: HttpException) {
                 photoDetailState.value = Resource.Error(e.localizedMessage ?: "An unexpected error occurred")
             } catch (e: IOException) {

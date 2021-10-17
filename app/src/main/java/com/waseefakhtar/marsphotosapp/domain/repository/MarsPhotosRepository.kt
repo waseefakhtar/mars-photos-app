@@ -4,5 +4,5 @@ import com.waseefakhtar.marsphotosapp.data.remote.dto.Photo
 
 interface MarsPhotosRepository {
 
-    suspend fun getMarsPhotos(): List<Photo>
+    suspend fun getMarsPhotos(rover: String): List<Photo>
 }
