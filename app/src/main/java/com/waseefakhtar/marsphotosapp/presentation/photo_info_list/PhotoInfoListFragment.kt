@@ -56,6 +56,7 @@ class PhotoInfoListFragment : BindingFragment<FragmentPhotoInfoListBinding>() {
                 adapter.add(photoInfoListState.data ?: listOf())
             }
             is Resource.Error -> {
+                binding.progressBar.visibility = View.GONE
                 Toast.makeText(context, photoInfoListState.message, Toast.LENGTH_LONG).show()
             }
         }

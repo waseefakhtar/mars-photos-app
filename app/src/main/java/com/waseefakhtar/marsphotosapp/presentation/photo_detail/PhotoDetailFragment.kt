@@ -61,6 +61,7 @@ class PhotoDetailFragment : BindingFragment<FragmentPhotoDetailBinding>() {
 
             }
             is Resource.Error -> {
+                binding.progressBar.visibility = View.GONE
                 Toast.makeText(context, photoDetailState.message, Toast.LENGTH_LONG).show()
             }
         }
