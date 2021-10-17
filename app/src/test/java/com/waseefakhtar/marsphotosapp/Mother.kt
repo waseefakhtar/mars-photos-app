@@ -2,6 +2,7 @@ package com.waseefakhtar.marsphotosapp
 
 import com.google.gson.annotations.SerializedName
 import com.waseefakhtar.marsphotosapp.data.remote.dto.Camera
+import com.waseefakhtar.marsphotosapp.data.remote.dto.MarsPhotosDto
 import com.waseefakhtar.marsphotosapp.data.remote.dto.Photo
 import com.waseefakhtar.marsphotosapp.data.remote.dto.Rover
 import com.waseefakhtar.marsphotosapp.domain.model.PhotoDetail
@@ -44,6 +45,11 @@ private fun generateRover(): Rover =
         launchDate = randomString(),
         name = randomString(),
         status = randomString()
+    )
+
+fun generateMarsPhotosDto(): MarsPhotosDto =
+    MarsPhotosDto(
+        photos = generatePhotoList()
     )
 
 fun Photo.toPhotoInfo(): PhotoInfo =
