@@ -37,7 +37,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:textAllCaps="true"
-            android:text="Rover"
+            android:text="@string/rover"
             />
 
         <TextView
@@ -57,7 +57,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:textAllCaps="true"
-            android:text="Launch Date"
+            android:text="@string/launch_date"
             />
 
         <TextView
@@ -77,7 +77,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:textAllCaps="true"
-            android:text="Landing Date"
+            android:text="@string/landing_date"
             />
 
         <TextView
@@ -97,7 +97,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:textAllCaps="true"
-            android:text="Status"
+            android:text="@string/status"
             />
 
         <TextView
