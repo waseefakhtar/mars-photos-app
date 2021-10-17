@@ -8,7 +8,6 @@
     <string name="launch_date">Launch Date</string>
     <string name="landing_date">Landing Date</string>
     <string name="status">Status</string>
-    <string name="rover">Rover</string>
     <string name="earth_date">Earth Date</string>
     <string name="camera">Camera</string>
 </resources>
