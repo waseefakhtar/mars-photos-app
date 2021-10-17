@@ -4,7 +4,9 @@ import com.google.gson.annotations.SerializedName
 import com.waseefakhtar.marsphotosapp.data.remote.dto.Camera
 import com.waseefakhtar.marsphotosapp.data.remote.dto.Photo
 import com.waseefakhtar.marsphotosapp.data.remote.dto.Rover
+import com.waseefakhtar.marsphotosapp.domain.model.PhotoDetail
 import com.waseefakhtar.marsphotosapp.domain.model.PhotoInfo
+import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
 private val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
@@ -50,6 +52,15 @@ fun Photo.toPhotoInfo(): PhotoInfo =
         rover = rover.name,
         earthDate = earthDate,
         camera = camera.fullName
+    )
+
+fun Photo.toPhotoDetail(): PhotoDetail =
+    PhotoDetail(
+        rover = rover.name,
+        launchDate = rover.launchDate,
+        landingDate = rover.landingDate,
+        imgSrc = imgSrc,
+        status = rover.status.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
     )
 
 
